@@ -1,32 +1,43 @@
-const express = require('express')
+const express=require('express');
 
-const bodyParser = require("body-parser");
+const bodyParser=require('body-parser');
 
-const app = express()
+
+
+const app=express();
 
 app.use(bodyParser.urlencoded({extended:true}));
 
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + "/index.html");
+
+app.use(express.static(__dirname + '/index.html'));
+
+
+app.use(express.static(__dirname + '/public'));
+
+
+app.get('/',function(request,response)
+{
+    response.sendFile(__dirname + "/index.html");
 })
 
 
 
-app.post("/",function(req,res){
-    console.log(req.body);
 
-    var num1=Number(req.body.num1);
-    var num2=Number(req.body.num2);
+app.post("/",function(request,response)
+{
 
+    var num1=Number(request.body.num1);
+    var num2=Number(request.body.num2);
     var result=num1+num2;
+    var result2=num1-num2;
+    var result3=num1*num2;
+    var result4=num1/num2;
+    response.send("The result of Addition is " + result + "</br>"+ "The result of Subtraction is " + result2+ "</br>" +"The result of Multiplication is " + result3 + "</br>" + "The result of Division is " + result4);
+    
+})
 
-    var resultt=num1-num2;
 
-    var resulttt=num1*num2;
-
-    var resultttt=num1/num2;
-
-    res.send("Result after addition  is " + result + "\n" + "Result after subtraction  is " +" "+ resultt +" " + "Result after  multiplication is " +" " +resulttt + " "+"Result after division  is " + resultttt);
-   
-});
-app.listen(3000)
+app.listen(3000,function()
+{
+    console.log("Server is Live on port 3000");
+})
